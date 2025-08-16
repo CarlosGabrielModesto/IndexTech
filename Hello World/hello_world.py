@@ -1,2 +1,3 @@
-# 'Hello, world!' em Russo.
-print ('Привет, мир!')
+# 'Hello, Charles!' em Português.
+
+print ('Olá, Charles!')
