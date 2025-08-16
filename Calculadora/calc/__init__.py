@@ -1,3 +1,0 @@
-'''
-Biblioteca muito legal!
-'''
