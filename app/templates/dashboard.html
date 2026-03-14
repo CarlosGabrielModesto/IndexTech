@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block topbar_title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     CABEÇALHO DA PÁGINA
+     ========================================================= -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Painel de Controle</h1>
+    <p class="page-subtitle">Rastreamento de câncer de colo do útero e mama · Botucatu</p>
+  </div>
+  <div class="page-header__actions">
+    <span class="cobertura-badge">
+      <i data-lucide="shield-check" style="width:16px;height:16px;"></i>
+      Cobertura: <strong>{{ m.cobertura }}%</strong>
+    </span>
+  </div>
+</div>
+
+<!-- =========================================================
+     CARDS DE MÉTRICAS
+     ========================================================= -->
+<div class="cards-grid">
+
+  <div class="metric-card metric-card--primary animate-in" style="--delay:0.05s">
+    <div class="metric-card__icon metric-card__icon--teal">
+      <i data-lucide="users"></i>
+    </div>
+    <div class="metric-card__body">
+      <span class="metric-card__label">Pacientes cadastradas</span>
+      <strong class="metric-card__value">{{ m.pessoas }}</strong>
+    </div>
+    <div class="metric-card__bar" style="--pct:100%"></div>
+  </div>
+
+  <div class="metric-card animate-in" style="--delay:0.10s">
+    <div class="metric-card__icon metric-card__icon--green">
+      <i data-lucide="send"></i>
+    </div>
+    <div class="metric-card__body">
+      <span class="metric-card__label">Convites enviados</span>
+      <strong class="metric-card__value">{{ m.inv_enviados }}</strong>
+    </div>
+    <div class="metric-card__bar" style="--pct:{{ m.cobertura }}%"></div>
+  </div>
+
+  <div class="metric-card animate-in" style="--delay:0.15s">
+    <div class="metric-card__icon metric-card__icon--amber">
+      <i data-lucide="clock"></i>
+    </div>
+    <div class="metric-card__body">
+      <span class="metric-card__label">Convites pendentes</span>
+      <strong class="metric-card__value">{{ m.inv_pendentes }}</strong>
+    </div>
+    <div class="metric-card__bar metric-card__bar--amber"
+         style="--pct:{% if m.pessoas > 0 %}{{ (m.inv_pendentes / m.pessoas * 100)|round(1) }}{% else %}0{% endif %}%"></div>
+  </div>
+
+  <div class="metric-card animate-in" style="--delay:0.20s">
+    <div class="metric-card__icon metric-card__icon--blue">
+      <i data-lucide="calendar-check-2"></i>
+    </div>
+    <div class="metric-card__body">
+      <span class="metric-card__label">Agendamentos</span>
+      <strong class="metric-card__value">{{ m.agendamentos }}</strong>
+    </div>
+    <div class="metric-card__bar metric-card__bar--blue"
+         style="--pct:{% if m.pessoas > 0 %}{{ (m.agendamentos / m.pessoas * 100)|round(1) }}{% else %}0{% endif %}%"></div>
+  </div>
+
+</div>
+
+<!-- =========================================================
+     GRÁFICOS
+     ========================================================= -->
+<div class="charts-grid">
+
+  <!-- Gráfico 1: Status dos convites (rosca) -->
+  <div class="chart-card animate-in" style="--delay:0.25s">
+    <div class="chart-card__header">
+      <h2 class="chart-card__title">
+        <i data-lucide="pie-chart"></i>
+        Status dos Convites
+      </h2>
+    </div>
+    <div class="chart-card__body chart-card__body--donut">
+      <canvas id="chartStatus"></canvas>
+    </div>
+    <div class="chart-legend" id="legendStatus"></div>
+  </div>
+
+  <!-- Gráfico 2: Pacientes por UBS (barras horizontais) -->
+  <div class="chart-card chart-card--wide animate-in" style="--delay:0.30s">
+    <div class="chart-card__header">
+      <h2 class="chart-card__title">
+        <i data-lucide="bar-chart-2"></i>
+        Pacientes por UBS
+      </h2>
+    </div>
+    <div class="chart-card__body">
+      <canvas id="chartUbs"></canvas>
+    </div>
+  </div>
+
+  <!-- Gráfico 3: Faixas etárias (barras verticais) -->
+  <div class="chart-card animate-in" style="--delay:0.35s">
+    <div class="chart-card__header">
+      <h2 class="chart-card__title">
+        <i data-lucide="activity"></i>
+        Faixas Etárias
+      </h2>
+      <span class="chart-card__hint">Protocolo INCA</span>
+    </div>
+    <div class="chart-card__body">
+      <canvas id="chartFaixas"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- =========================================================
+     AÇÕES RÁPIDAS
+     ========================================================= -->
+<div class="actions-grid">
+
+  <!-- Card: Importar arquivo -->
+  <div class="action-card animate-in" style="--delay:0.40s">
+    <div class="action-card__header">
+      <div class="action-card__icon action-card__icon--teal">
+        <i data-lucide="upload-cloud"></i>
+      </div>
+      <div>
+        <h3 class="action-card__title">Importar Pacientes</h3>
+        <p class="action-card__desc">Carregue um arquivo Excel (.xlsx) ou CSV com as pacientes.</p>
+      </div>
+    </div>
+    <div class="action-card__body">
+      <label class="file-drop" id="fileDrop">
+        <input type="file" id="importFile" accept=".xlsx,.xls,.csv" hidden/>
+        <i data-lucide="file-spreadsheet" class="file-drop__icon"></i>
+        <span class="file-drop__label" id="fileLabel">Arraste ou clique para selecionar</span>
+        <span class="file-drop__hint">.xlsx · .xls · .csv</span>
+      </label>
+      <button class="btn btn--primary btn--full" id="btnImport" disabled>
+        <i data-lucide="upload"></i>
+        Importar arquivo
+      </button>
+    </div>
+  </div>
+
+  <!-- Card: Disparar convites -->
+  <div class="action-card animate-in" style="--delay:0.45s">
+    <div class="action-card__header">
+      <div class="action-card__icon action-card__icon--green">
+        <i data-lucide="message-circle"></i>
+      </div>
+      <div>
+        <h3 class="action-card__title">Disparar Convites</h3>
+        <p class="action-card__desc">Envia mensagens via WhatsApp para pacientes pendentes.</p>
+      </div>
+    </div>
+    <div class="action-card__body">
+      <div class="field">
+        <label class="field__label" for="inviteTemplate">Mensagem</label>
+        <textarea class="field__textarea" id="inviteTemplate" rows="4">Olá, {primeiro_nome}! 👋 Somos da equipe de saúde {ubs}. Você faz parte do grupo de mulheres que precisam realizar a coleta preventiva. Responda *SIM* para agendar gratuitamente. 💚</textarea>
+      </div>
+      <div class="field">
+        <label class="field__label" for="inviteLimit">Limite de envios</label>
+        <input class="field__input" type="number" id="inviteLimit" value="50" min="1" max="500"/>
+      </div>
+      <button class="btn btn--primary btn--full" id="btnInvite">
+        <i data-lucide="send"></i>
+        Enviar convites
+      </button>
+    </div>
+  </div>
+
+  <!-- Card: Agendamento manual -->
+  <div class="action-card animate-in" style="--delay:0.50s">
+    <div class="action-card__header">
+      <div class="action-card__icon action-card__icon--blue">
+        <i data-lucide="calendar-plus"></i>
+      </div>
+      <div>
+        <h3 class="action-card__title">Agendar Manualmente</h3>
+        <p class="action-card__desc">Cria agendamento e envia confirmação para a paciente.</p>
+      </div>
+    </div>
+    <div class="action-card__body">
+      <div class="field">
+        <label class="field__label" for="schedPhone">Telefone (+55DDDNÚMERO)</label>
+        <input class="field__input" type="text" id="schedPhone" placeholder="+5514999999999"/>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field__label" for="schedWhen">Data e hora</label>
+          <input class="field__input" type="datetime-local" id="schedWhen"/>
+        </div>
+        <div class="field">
+          <label class="field__label" for="schedPlace">Local</label>
+          <input class="field__input" type="text" id="schedPlace" placeholder="UBS Centro"/>
+        </div>
+      </div>
+      <button class="btn btn--primary btn--full" id="btnSchedule">
+        <i data-lucide="calendar-check"></i>
+        Criar agendamento
+      </button>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts_extra %}
+<script>
+window.CHART_DATA = {
+  status: { labels: {{ m.chart_status.labels | tojson }}, data: {{ m.chart_status.data | tojson }} },
+  ubs:    { labels: {{ m.chart_ubs.labels    | tojson }}, data: {{ m.chart_ubs.data    | tojson }} },
+  faixas: { labels: {{ m.chart_faixas.labels | tojson }}, data: {{ m.chart_faixas.data | tojson }} },
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/static/js/charts.js"></script>
+{% endblock %}

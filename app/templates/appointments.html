@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Agendamentos{% endblock %}
+{% block topbar_title %}Agendamentos{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Agendamentos</h1>
+    <p class="page-subtitle">{{ dados.total }} agendamento{{ 's' if dados.total != 1 else '' }} registrado{{ 's' if dados.total != 1 else '' }}</p>
+  </div>
+</div>
+
+<!-- =========================================================
+     TABELA DE AGENDAMENTOS
+     ========================================================= -->
+<div class="table-card animate-in" style="--delay:0.05s">
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Paciente</th>
+          <th>Telefone</th>
+          <th>Data / Hora</th>
+          <th>Local</th>
+          <th>Status</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if dados.agendamentos %}
+          {% for ag in dados.agendamentos %}
+          <tr class="table-row">
+            <td class="table-id">{{ ag.id }}</td>
+            <td class="table-name">
+              <div class="patient-name">
+                <div class="patient-avatar">{{ ag.nome[0] | upper if ag.nome != '—' else '?' }}</div>
+                {{ ag.nome }}
+              </div>
+            </td>
+            <td><span class="phone-chip">{{ ag.phone }}</span></td>
+            <td>
+              <span class="datetime-chip">
+                <i data-lucide="calendar" style="width:13px;height:13px;"></i>
+                {{ ag.when }}
+              </span>
+            </td>
+            <td>{{ ag.place }}</td>
+            <td>
+              <span class="status-badge status-badge--{{ ag.status }}">
+                {{ ag.status }}
+              </span>
+            </td>
+            <td>
+              <div class="appt-actions">
+                <button
+                  class="btn-appt btn-appt--done"
+                  data-id="{{ ag.id }}"
+                  data-status="done"
+                  title="Marcar como realizado"
+                  {% if ag.status == 'done' %}disabled{% endif %}
+                >
+                  <i data-lucide="check-circle-2"></i>
+                </button>
+                <button
+                  class="btn-appt btn-appt--cancel"
+                  data-id="{{ ag.id }}"
+                  data-status="cancelled"
+                  title="Cancelar agendamento"
+                  {% if ag.status == 'cancelled' %}disabled{% endif %}
+                >
+                  <i data-lucide="x-circle"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7" class="table-empty">
+              <div class="empty-state">
+                <i data-lucide="calendar-x-2"></i>
+                <p>Nenhum agendamento registrado ainda.</p>
+                <a href="/" class="btn btn--ghost btn--sm">Criar agendamento</a>
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginação -->
+  {% if dados.total_paginas > 1 %}
+  <div class="pagination">
+    {% if dados.pagina > 1 %}
+      <a class="page-btn" href="?pagina={{ dados.pagina - 1 }}">
+        <i data-lucide="chevron-left"></i>
+      </a>
+    {% endif %}
+
+    {% for p in range(1, dados.total_paginas + 1) %}
+      {% if p == dados.pagina %}
+        <span class="page-btn page-btn--active">{{ p }}</span>
+      {% elif p <= 3 or p >= dados.total_paginas - 2 or (p >= dados.pagina - 1 and p <= dados.pagina + 1) %}
+        <a class="page-btn" href="?pagina={{ p }}">{{ p }}</a>
+      {% elif p == 4 or p == dados.total_paginas - 3 %}
+        <span class="page-btn page-btn--ellipsis">…</span>
+      {% endif %}
+    {% endfor %}
+
+    {% if dados.pagina < dados.total_paginas %}
+      <a class="page-btn" href="?pagina={{ dados.pagina + 1 }}">
+        <i data-lucide="chevron-right"></i>
+      </a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

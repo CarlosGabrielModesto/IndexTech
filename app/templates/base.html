@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% block title %}Hygeia Digital{% endblock %} — UNESP Botucatu</title>
+
+  <!-- Fontes: DM Serif Display (títulos) + DM Sans (corpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+
+  <!-- Ícones: Lucide (leve, SVG, sem dependência pesada) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Chart.js para os gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="/static/css/style.css"/>
+
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+  <!-- =====================================================================
+       SIDEBAR DE NAVEGAÇÃO LATERAL
+       ===================================================================== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <div class="sidebar__logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="10" fill="white" fill-opacity="0.15"/>
+          <path d="M16 7v18M7 16h18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="6" stroke="white" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+      <div class="sidebar__brand-text">
+        <span class="sidebar__name">Hygeia</span>
+        <span class="sidebar__sub">Digital</span>
+      </div>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a href="/" class="nav-item {% if request.url.path == '/' %}nav-item--active{% endif %}">
+        <i data-lucide="layout-dashboard" class="nav-icon"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/pacientes" class="nav-item {% if request.url.path == '/pacientes' %}nav-item--active{% endif %}">
+        <i data-lucide="users" class="nav-icon"></i>
+        <span>Pacientes</span>
+      </a>
+      <a href="/agendamentos" class="nav-item {% if request.url.path == '/agendamentos' %}nav-item--active{% endif %}">
+        <i data-lucide="calendar-check" class="nav-icon"></i>
+        <span>Agendamentos</span>
+      </a>
+      <a href="/docs" target="_blank" rel="noopener" class="nav-item">
+        <i data-lucide="code-2" class="nav-icon"></i>
+        <span>API Docs</span>
+      </a>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__unesp">
+        <i data-lucide="building-2" class="nav-icon"></i>
+        <span>FM Botucatu · UNESP</span>
+      </div>
+      <div class="sidebar__authors">
+        Carlos Gabriel · Gustavo Vital · Renan Augusto
+      </div>
+    </div>
+  </aside>
+
+  <!-- Overlay para fechar sidebar no mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- =====================================================================
+       ÁREA PRINCIPAL
+       ===================================================================== -->
+  <div class="layout">
+
+    <!-- Topbar mobile -->
+    <header class="topbar">
+      <button class="topbar__menu" id="menuToggle" aria-label="Abrir menu">
+        <i data-lucide="menu"></i>
+      </button>
+      <span class="topbar__title">{% block topbar_title %}Hygeia Digital{% endblock %}</span>
+      <div class="topbar__badge">
+        <span class="badge badge--online">● Sistema ativo</span>
+      </div>
+    </header>
+
+    <!-- Conteúdo da página -->
+    <main class="main-content">
+      <!-- Toast de notificação global -->
+      <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+      {% block content %}{% endblock %}
+    </main>
+
+  </div><!-- /.layout -->
+
+  <!-- JS principal -->
+  <script src="/static/js/app.js"></script>
+  <script>
+    // Inicializa os ícones Lucide após o DOM carregar
+    lucide.createIcons();
+  </script>
+  {% block scripts_extra %}{% endblock %}
+</body>
+</html>

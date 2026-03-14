@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Pacientes{% endblock %}
+{% block topbar_title %}Pacientes{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Pacientes</h1>
+    <p class="page-subtitle">{{ dados.total }} paciente{{ 's' if dados.total != 1 else '' }} cadastrada{{ 's' if dados.total != 1 else '' }}</p>
+  </div>
+</div>
+
+<!-- =========================================================
+     FILTROS
+     ========================================================= -->
+<form class="filter-bar" method="get" action="/pacientes">
+  <div class="filter-bar__group">
+    <i data-lucide="search" class="filter-bar__icon"></i>
+    <input
+      class="filter-bar__input"
+      type="text"
+      name="busca"
+      placeholder="Buscar por nome ou telefone…"
+      value="{{ busca }}"
+    />
+  </div>
+
+  <select class="filter-bar__select" name="ubs_filtro">
+    <option value="">Todas as UBS</option>
+    {% for ubs in lista_ubs %}
+      <option value="{{ ubs }}" {% if ubs == ubs_filtro %}selected{% endif %}>{{ ubs }}</option>
+    {% endfor %}
+  </select>
+
+  <select class="filter-bar__select" name="status_filtro">
+    <option value="">Todos os status</option>
+    <option value="pending"   {% if status_filtro == 'pending'   %}selected{% endif %}>Pendente</option>
+    <option value="sent"      {% if status_filtro == 'sent'      %}selected{% endif %}>Enviado</option>
+    <option value="responded" {% if status_filtro == 'responded' %}selected{% endif %}>Respondeu</option>
+    <option value="error"     {% if status_filtro == 'error'     %}selected{% endif %}>Erro</option>
+    <option value="skipped"   {% if status_filtro == 'skipped'   %}selected{% endif %}>Ignorado</option>
+  </select>
+
+  <button class="btn btn--primary" type="submit">
+    <i data-lucide="filter"></i>
+    Filtrar
+  </button>
+
+  {% if busca or ubs_filtro or status_filtro %}
+  <a class="btn btn--ghost" href="/pacientes">
+    <i data-lucide="x"></i>
+    Limpar
+  </a>
+  {% endif %}
+</form>
+
+<!-- =========================================================
+     TABELA
+     ========================================================= -->
+<div class="table-card animate-in" style="--delay:0.05s">
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>UBS</th>
+          <th>Nascimento</th>
+          <th>Status Convite</th>
+          <th>Opt-out</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if dados.pacientes %}
+          {% for p in dados.pacientes %}
+          <tr class="table-row">
+            <td class="table-id">{{ p.id }}</td>
+            <td class="table-name">
+              <div class="patient-name">
+                <div class="patient-avatar">{{ p.name[0] | upper }}</div>
+                {{ p.name }}
+              </div>
+            </td>
+            <td class="table-phone">
+              <span class="phone-chip">{{ p.phone }}</span>
+            </td>
+            <td>{{ p.ubs }}</td>
+            <td>{{ p.birthdate }}</td>
+            <td>
+              <span class="status-badge status-badge--{{ p.status }}">
+                {{ p.status }}
+              </span>
+            </td>
+            <td>
+              <button
+                class="btn-optout {% if p.optout %}btn-optout--active{% endif %}"
+                data-id="{{ p.id }}"
+                data-optout="{{ 'true' if p.optout else 'false' }}"
+                title="{{ 'Reativar paciente' if p.optout else 'Desativar envios' }}"
+              >
+                <i data-lucide="{{ 'bell-off' if p.optout else 'bell' }}"></i>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7" class="table-empty">
+              <div class="empty-state">
+                <i data-lucide="search-x"></i>
+                <p>Nenhuma paciente encontrada com os filtros aplicados.</p>
+                <a href="/pacientes" class="btn btn--ghost btn--sm">Limpar filtros</a>
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginação -->
+  {% if dados.total_paginas > 1 %}
+  <div class="pagination">
+    {% if dados.pagina > 1 %}
+      <a class="page-btn" href="?pagina={{ dados.pagina - 1 }}&busca={{ busca }}&ubs_filtro={{ ubs_filtro }}&status_filtro={{ status_filtro }}">
+        <i data-lucide="chevron-left"></i>
+      </a>
+    {% endif %}
+
+    {% for p in range(1, dados.total_paginas + 1) %}
+      {% if p == dados.pagina %}
+        <span class="page-btn page-btn--active">{{ p }}</span>
+      {% elif p <= 3 or p >= dados.total_paginas - 2 or (p >= dados.pagina - 1 and p <= dados.pagina + 1) %}
+        <a class="page-btn" href="?pagina={{ p }}&busca={{ busca }}&ubs_filtro={{ ubs_filtro }}&status_filtro={{ status_filtro }}">{{ p }}</a>
+      {% elif p == 4 or p == dados.total_paginas - 3 %}
+        <span class="page-btn page-btn--ellipsis">…</span>
+      {% endif %}
+    {% endfor %}
+
+    {% if dados.pagina < dados.total_paginas %}
+      <a class="page-btn" href="?pagina={{ dados.pagina + 1 }}&busca={{ busca }}&ubs_filtro={{ ubs_filtro }}&status_filtro={{ status_filtro }}">
+        <i data-lucide="chevron-right"></i>
+      </a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}
