@@ -379,7 +379,7 @@ Desenvolvido pela equipe do Hackathon Hygeia Digital 2025:
 | Nome | GitHub |
 |---|---|
 | Carlos Gabriel | [@CarlosGabrielModesto](https://github.com/CarlosGabrielModesto) |
-| Gustavo Vital | [@UntestedCode](https://github.com) |
+| Gustavo Vital | [@UntestedCode](https://github.com/UntestedCode) |
 | Renam Augusto | [@RenanAugusto-Dev](https://github.com/RenanAugusto-Dev) |
 
 **Faculdade de Medicina de Botucatu — UNESP**
