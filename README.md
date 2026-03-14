@@ -374,13 +374,13 @@ A documentação completa da API está disponível em:
 
 ## 👥 Autores
 
-Desenvolvido com 💚 pela equipe do Hackathon Hygeia Digital 2025:
+Desenvolvido pela equipe do Hackathon Hygeia Digital 2025:
 
 | Nome | GitHub |
 |---|---|
-| Carlos Gabriel | [@carlosgabriel](https://github.com) |
+| Carlos Gabriel | [@CarlosGabrielModesto](https://github.com/CarlosGabrielModesto) |
 | Gustavo Vital | [@gustavovital](https://github.com) |
-| Renam Augusto | [@renamaugusto](https://github.com) |
+| Renam Augusto | [@RenanAugusto-Dev](https://github.com/RenanAugusto-Dev) |
 
 **Faculdade de Medicina de Botucatu — UNESP**
 Hackathon Hygeia Digital 2025
