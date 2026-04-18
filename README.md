@@ -16,22 +16,22 @@
 
 ---
 
-## 📋 Sumário
+## Sumário
 
-- [Sobre o projeto](#-sobre-o-projeto)
-- [O problema](#-o-problema)
-- [A solução](#-a-solução)
-- [Funcionalidades](#-funcionalidades)
-- [Tecnologias](#-tecnologias)
-- [Arquitetura](#-arquitetura)
-- [Estrutura de diretórios](#-estrutura-de-diretórios)
-- [Instalação e execução](#-instalação-e-execução)
-- [Configuração do ambiente](#-configuração-do-ambiente)
-- [Como usar](#-como-usar)
-- [API Reference](#-api-reference)
-- [Fluxo de rastreamento](#-fluxo-de-rastreamento)
-- [Evoluções futuras](#-evoluções-futuras)
-- [Autores](#-autores)
+- [Sobre o projeto](#sobre-o-projeto)
+- [O problema](#o-problema)
+- [A solução](#a-solução)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias](#tecnologias)
+- [Arquitetura](#arquitetura)
+- [Estrutura de diretórios](#estrutura-de-diretórios)
+- [Instalação e execução](#instalação-e-execução)
+- [Configuração do ambiente](#configuração-do-ambiente)
+- [Como usar](#como-usar)
+- [API Reference](#api-reference)
+- [Fluxo de rastreamento](#fluxo-de-rastreamento)
+- [Evoluções futuras](#evoluções-futuras)
+- [Autores](#autores)
 
 ---
 
