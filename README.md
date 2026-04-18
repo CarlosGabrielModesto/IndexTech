@@ -35,79 +35,80 @@
 
 ---
 
-## 🎯 Sobre o projeto
+## Sobre o projeto
 
-O **Hygeia Digital** é uma plataforma web desenvolvida durante o **Hackathon Hygeia Digital 2025**, promovido pela Faculdade de Medicina de Botucatu (UNESP), com o objetivo de modernizar e ampliar o alcance das ações de rastreamento de câncer de colo do útero e mama no SUS.
+O **Hygeia Digital** é uma plataforma web desenvolvida durante o **Hackathon Hygeia Digital 2025**, promovido pela Faculdade de Medicina de Botucatu (UNESP), para apoiar e ampliar as ações de rastreamento de câncer de colo do útero e mama no SUS.
 
-O sistema automatiza a **busca ativa de pacientes**, enviando convites personalizados via WhatsApp, processando respostas automaticamente e organizando os agendamentos — tudo em um painel de controle acessível para as equipes de saúde.
-
----
-
-## 🔍 O problema
-
-Em municípios como Botucatu, o rastreamento organizado abrange milhares de mulheres entre 25 e 64 anos. O processo tradicional de convocação enfrenta limitações críticas:
-
-- 📞 **Alto índice de chamadas não atendidas** nas abordagens por telefone
-- 🚧 **Barreiras de acesso à informação** em comunidades vulneráveis
-- ⏱️ **Processo manual e lento** entre o primeiro contato e a realização do exame
-- 📊 **Ausência de indicadores** para monitorar cobertura e efetividade
-- 🔄 **Dificuldade de escala** para abranger toda a população-alvo
+O sistema automatiza a **busca ativa de pacientes**, com envio de convites personalizados via WhatsApp, processamento automático das respostas e organização dos agendamentos em um painel acessível para as equipes de saúde.
 
 ---
 
-## 💡 A solução
+## O problema
 
-O Hygeia Digital resolve esses problemas com uma plataforma que:
+Em municípios como Botucatu, o rastreamento organizado envolve milhares de mulheres entre 25 e 64 anos. Nesse contexto, o processo tradicional de convocação apresenta limitações importantes:
 
-1. **Importa automaticamente** a lista de pacientes a partir de planilhas Excel ou CSV geradas pelos sistemas de saúde existentes
-2. **Dispara mensagens personalizadas** via WhatsApp para todas as pacientes elegíveis com um clique
-3. **Processa respostas automaticamente** — quando a paciente responde "SIM", o agendamento é criado e a confirmação é enviada instantaneamente
-4. **Exibe indicadores em tempo real** — cobertura, taxa de resposta, distribuição por UBS e faixa etária
-5. **Respeita o opt-out** — pacientes que respondem "PARAR" são removidas das próximas listas automaticamente
+- alto índice de chamadas não atendidas nas abordagens por telefone
+- barreiras de acesso à informação em comunidades vulneráveis
+- processo manual e lento entre o primeiro contato e a realização do exame
+- ausência de indicadores para monitorar cobertura e efetividade
+- dificuldade de escala para abranger toda a população-alvo
 
 ---
 
-## ✨ Funcionalidades
+## A solução
+
+O Hygeia Digital organiza esse fluxo em uma única plataforma que:
+
+1. importa automaticamente a lista de pacientes a partir de planilhas Excel ou CSV geradas pelos sistemas de saúde existentes
+2. dispara mensagens personalizadas via WhatsApp para todas as pacientes elegíveis com um clique
+3. processa respostas automaticamente — quando a paciente responde `SIM`, o agendamento é criado e a confirmação é enviada instantaneamente
+4. exibe indicadores em tempo real, como cobertura, taxa de resposta, distribuição por UBS e faixa etária
+5. respeita o opt-out — pacientes que respondem `PARAR` são removidas das próximas listas automaticamente
+
+---
+
+## Funcionalidades
 
 | Funcionalidade | Descrição |
 |---|---|
-| 📥 Importação de planilhas | Suporte a `.xlsx`, `.xls` e `.csv` com normalização automática de dados |
-| 📱 Envio via WhatsApp | Integração com Twilio (Sandbox e produção) e Meta Cloud API |
-| 🤖 Webhook automático | Processa respostas das pacientes em tempo real |
-| 📅 Agendamento automático | Cria agendamento ao receber confirmação da paciente |
-| 📅 Agendamento manual | Permite agendar diretamente pelo painel informando o telefone |
-| 📊 Dashboard com gráficos | Métricas de cobertura, status de convites, UBS e faixas etárias |
-| 👩‍⚕️ Gestão de pacientes | Tabela paginada com busca, filtros por UBS e status |
-| 📋 Gestão de agendamentos | Visualização e atualização de status (realizado / cancelado) |
-| 🔕 Opt-out respeitado | Pacientes que pedem para sair não recebem mais mensagens |
-| 📖 API documentada | Swagger UI e ReDoc disponíveis automaticamente |
+| Importação de planilhas | Suporte a `.xlsx`, `.xls` e `.csv` com normalização automática de dados |
+| Envio via WhatsApp | Integração com Twilio (Sandbox e produção) e Meta Cloud API |
+| Webhook automático | Processa respostas das pacientes em tempo real |
+| Agendamento automático | Cria agendamento ao receber confirmação da paciente |
+| Agendamento manual | Permite agendar diretamente pelo painel informando o telefone |
+| Dashboard com gráficos | Métricas de cobertura, status de convites, UBS e faixas etárias |
+| Gestão de pacientes | Tabela paginada com busca, filtros por UBS e status |
+| Gestão de agendamentos | Visualização e atualização de status (realizado / cancelado) |
+| Opt-out respeitado | Pacientes que pedem para sair não recebem mais mensagens |
+| API documentada | Swagger UI e ReDoc disponíveis automaticamente |
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 **Backend**
 - [Python 3.11+](https://python.org) — linguagem principal
 - [FastAPI](https://fastapi.tiangolo.com) — framework web assíncrono de alta performance
-- [SQLAlchemy 2.0](https://sqlalchemy.org) — ORM robusto para acesso ao banco de dados
-- [SQLite](https://sqlite.org) — banco de dados local, sem configuração extra
+- [SQLAlchemy 2.0](https://sqlalchemy.org) — ORM para acesso ao banco de dados
+- [SQLite](https://sqlite.org) — banco de dados local
 - [Pandas](https://pandas.pydata.org) — leitura e processamento de planilhas
-- [Twilio](https://twilio.com) — envio de mensagens WhatsApp
-- [Uvicorn](https://www.uvicorn.org) — servidor ASGI de produção
+- [Twilio](https://twilio.com) — envio de mensagens via WhatsApp
+- [Uvicorn](https://www.uvicorn.org) — servidor ASGI
 - [Jinja2](https://jinja.palletsprojects.com) — templates HTML server-side
 
 **Frontend**
-- HTML5 semântico com Jinja2 templating
-- CSS3 puro com variáveis customizadas (sem framework)
+- HTML5 com Jinja2 templating
+- CSS3 com variáveis customizadas
 - [Chart.js 4](https://chartjs.org) — gráficos interativos
-- [Lucide Icons](https://lucide.dev) — ícones SVG leves
+- [Lucide Icons](https://lucide.dev) — ícones SVG
 - Google Fonts: DM Serif Display + DM Sans
 - JavaScript ES2022 (vanilla, sem bundler)
 
 ---
 
-## 🏗️ Arquitetura
-```
+## Arquitetura
+
+```text
 Navegador  ←→  FastAPI (Uvicorn)
                    │
           ┌────────┼────────────┐
@@ -121,16 +122,18 @@ Navegador  ←→  FastAPI (Uvicorn)
                    API         negócio)
 ```
 
-O sistema segue o padrão **MVC simplificado**:
-- **Models** → `app/models.py` (Person, Invitation, Appointment)
+O sistema segue um padrão **MVC simplificado**:
+
+- **Models** → `app/models.py` (`Person`, `Invitation`, `Appointment`)
 - **Views** → `app/templates/` (Jinja2 + Chart.js)
-- **Controllers** → `app/routers/` (dashboard, api, webhook)
-- **Services** → `app/service.py` (toda a lógica de negócio isolada)
+- **Controllers** → `app/routers/` (`dashboard`, `api`, `webhook`)
+- **Services** → `app/service.py` (lógica de negócio)
 
 ---
 
-## 📁 Estrutura de diretórios
-```
+## Estrutura de diretórios
+
+```text
 hygeia/
 ├── app/
 │   ├── __init__.py
@@ -168,7 +171,7 @@ hygeia/
 
 ---
 
-## 🚀 Instalação e execução
+## Instalação e execução
 
 ### Pré-requisitos
 
@@ -211,15 +214,16 @@ python run.py
 ```
 
 **6. Acesse no navegador**
-```
+```text
 http://localhost:8000
 ```
 
 ---
 
-## ⚙️ Configuração do ambiente
+## Configuração do ambiente
 
 Copie `.env.example` para `.env` e preencha os valores:
+
 ```env
 # Modo de notificação: console (dev) | twilio | whatsapp
 NOTIFIER=console
@@ -256,19 +260,21 @@ PORT=8000
 ### Configurando o Webhook (para receber respostas)
 
 Para processar as respostas das pacientes localmente, use o [ngrok](https://ngrok.com):
+
 ```bash
 # Em um terminal separado
 ngrok http 8000
 ```
 
 Configure a URL gerada no Twilio Console:
-```
+
+```text
 https://xxxx.ngrok.io/twilio/webhook
 ```
 
 ---
 
-## 📖 Como usar
+## Como usar
 
 ### 1. Importar pacientes
 
@@ -285,8 +291,8 @@ https://xxxx.ngrok.io/twilio/webhook
 ### 3. Processar respostas automaticamente
 
 - Com o webhook configurado, as respostas chegam em tempo real
-- Paciente responde **SIM** → agendamento criado, confirmação enviada
-- Paciente responde **PARAR** → opt-out ativado automaticamente
+- Paciente responde `SIM` → agendamento criado, confirmação enviada
+- Paciente responde `PARAR` → opt-out ativado automaticamente
 
 ### 4. Gerenciar pacientes
 
@@ -302,7 +308,7 @@ https://xxxx.ngrok.io/twilio/webhook
 
 ---
 
-## 📡 API Reference
+## API Reference
 
 A documentação completa da API está disponível em:
 
@@ -324,8 +330,9 @@ A documentação completa da API está disponível em:
 
 ---
 
-## 🔄 Fluxo de rastreamento
-```
+## Fluxo de rastreamento
+
+```text
 1. Importação
    Planilha Excel/CSV
         │
@@ -357,22 +364,22 @@ A documentação completa da API está disponível em:
 
 ---
 
-## 🔭 Evoluções futuras
+## Evoluções futuras
 
-- [ ] **Autenticação** — login por equipe de saúde com controle de acesso
-- [ ] **Relatórios exportáveis** — PDF/Excel com indicadores por período
-- [ ] **Agendamento inteligente** — sugestão de horários baseada na disponibilidade da UBS
-- [ ] **Mapa de cobertura** — visualização geográfica por bairro/CEP
-- [ ] **Integração com e-SUS** — importação direta da base nacional
-- [ ] **Múltiplos municípios** — suporte multi-tenant para outras regiões do SUS
-- [ ] **App mobile** — PWA para agentes de saúde em campo
-- [ ] **IA para priorização** — identificação de grupos de maior risco com base em dados históricos
-- [ ] **Lembretes automáticos** — reenvio para pacientes que não responderam após N dias
-- [ ] **Dashboard para gestores** — visão consolidada por regional de saúde
+- [ ] Autenticação — login por equipe de saúde com controle de acesso
+- [ ] Relatórios exportáveis — PDF/Excel com indicadores por período
+- [ ] Agendamento inteligente — sugestão de horários baseada na disponibilidade da UBS
+- [ ] Mapa de cobertura — visualização geográfica por bairro/CEP
+- [ ] Integração com e-SUS — importação direta da base nacional
+- [ ] Múltiplos municípios — suporte multi-tenant para outras regiões do SUS
+- [ ] App mobile — PWA para agentes de saúde em campo
+- [ ] IA para priorização — identificação de grupos de maior risco com base em dados históricos
+- [ ] Lembretes automáticos — reenvio para pacientes que não responderam após N dias
+- [ ] Dashboard para gestores — visão consolidada por regional de saúde
 
 ---
 
-## 👥 Autores
+## Autores
 
 Desenvolvido pela equipe do Hackathon Hygeia Digital 2025:
 
@@ -382,13 +389,5 @@ Desenvolvido pela equipe do Hackathon Hygeia Digital 2025:
 | Gustavo Vital | [@UntestedCode](https://github.com/UntestedCode) |
 | Renam Augusto | [@RenanAugusto-Dev](https://github.com/RenanAugusto-Dev) |
 
-**Faculdade de Medicina de Botucatu — UNESP**
+**Faculdade de Medicina de Botucatu — UNESP**  
 Hackathon Hygeia Digital 2025
-
----
-
-<div align="center">
-
-*"A tecnologia a serviço da saúde pública — porque prevenir salva vidas."*
-
-</div>
